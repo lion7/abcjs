@@ -668,4 +668,32 @@ A more complicated example that has the drum pattern fall over two measures of 2
 
 Note that the default soundfont that is used by abcjs contains sounds for pitches **27** through **87**. You can experiment with any of them for different effects.
 
+## WebMIDI Playback
+
+abcjs also supports playing a tune through any WebMIDI output. Use the `WebMidiPlayer` class:
+
+```javascript
+var player = new ABCJS.synth.WebMidiPlayer();
+player.init({ visualObj: visualObj }).then(function(){
+  var outs = player.getOutputs(); // array of MIDIOutput
+  if (outs.length) {
+    player.setOutput(outs[0].id); // choose a device
+    player.start();
+  }
+});
+```
+
+To capture live input and insert notes into an `ABCJS.Editor`, use `MidiInputHandler`:
+
+```javascript
+var input = new ABCJS.synth.MidiInputHandler(editor);
+input.init().then(function(){
+  var devices = input.getInputs();
+  if (devices.length)
+    input.setInput(devices[0].id);
+});
+```
+
+Incoming `noteon` events will be translated to simple ABC note names and placed at the current cursor position.
+
 
