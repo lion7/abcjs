@@ -104,11 +104,27 @@ EditArea.prototype.getString = function () {
 };
 
 EditArea.prototype.setString = function (str) {
-	this.textarea.value = str;
-	this.initialText = this.getString();
-	if (this.changelistener) {
-		this.changelistener.fireChanged();
-	}
+        this.textarea.value = str;
+        this.initialText = this.getString();
+        if (this.changelistener) {
+                this.changelistener.fireChanged();
+        }
+};
+
+// Insert text at the current cursor position. This is useful when
+// feeding characters from an external MIDI device into the editor.
+// The change listener is notified so the editor can re-render.
+EditArea.prototype.insertAtCursor = function(str) {
+        var start = this.textarea.selectionStart;
+        var end = this.textarea.selectionEnd;
+        var current = this.textarea.value;
+        this.textarea.value = current.substring(0, start) + str + current.substring(end);
+        var pos = start + str.length;
+        if (this.textarea.setSelectionRange)
+                this.textarea.setSelectionRange(pos, pos);
+        this.textarea.focus();
+        if (this.changelistener)
+                this.changelistener.fireChanged();
 };
 
 EditArea.prototype.getElem = function () {

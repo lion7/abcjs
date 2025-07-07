@@ -59,6 +59,8 @@ var playEvent = require('./src/synth/play-event');
 var SynthController = require('./src/synth/synth-controller');
 var getMidiFile = require('./src/synth/get-midi-file');
 var midiRenderer = require('./src/synth/abc_midi_renderer');
+var WebMidiPlayer = require('./src/synth/webmidi-player');
+var MidiInputHandler = require('./src/synth/midi-input-handler');
 
 abcjs.synth = {
 	CreateSynth: CreateSynth,
@@ -72,8 +74,10 @@ abcjs.synth = {
 	supportsAudio: supportsAudio,
 	playEvent: playEvent,
 	getMidiFile: getMidiFile,
-	sequence: sequence,
-	midiRenderer: midiRenderer,
+        sequence: sequence,
+        midiRenderer: midiRenderer,
+        WebMidiPlayer: WebMidiPlayer,
+        MidiInputHandler: MidiInputHandler
 };
 
 abcjs['Editor'] = require('./src/edit/abc_editor');
